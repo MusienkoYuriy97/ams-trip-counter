@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+    <title>Amsterdam Countdown</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root{
+            --bg:#0b1220; --fg:#eaf7ea; --muted:#9bb39b; --card:#0e1830;
+            --accent:#20df6b; --accent-ink:#062412; --accent2:#ff7b00;
+            --glass: rgba(15,26,47,.72);
+            --stroke: rgba(255,255,255,.08);
+            --ring: rgba(32,223,107,.45);
+            --shadow: rgba(0,0,0,.45);
+        }
+        html[data-theme="light"]{
+            --bg:#f6fff6; --fg:#0a1a0f; --muted:#496649; --card:#ecfff0;
+            --accent:#0db36a; --accent-ink:#031a10; --accent2:#df5e00;
+            --glass: rgba(236,255,240,.78);
+            --stroke: rgba(0,0,0,.08);
+            --ring: rgba(13,179,106,.35);
+            --shadow: rgba(0,0,0,.12);
+        }
+
+        html,body{height:100%}
+        body{
+            margin:0; color:var(--fg);
+            font:16px/1.5 system-ui,-apple-system,Inter,Segoe UI,Roboto,sans-serif;
+            background: var(--bg);
+            background-image:
+                    radial-gradient(1100px 520px at 10% -10%, color-mix(in oklab, var(--bg), #123 25%) 0%, var(--bg) 60%),
+                    radial-gradient(900px 480px at 110% 110%, color-mix(in oklab, var(--bg), #223a66 35%) 0%, var(--bg) 58%);
+            overflow-x:hidden;
+            -webkit-font-smoothing:antialiased;
+            text-rendering:optimizeLegibility;
+        }
+
+        .wrap{max-width:680px;margin:0 auto;padding:24px 16px 160px;position:relative;z-index:2}
+        header{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+        .logo{font-size:26px;filter:drop-shadow(0 0 10px var(--ring))}
+        h1{margin:0;font-size:20px;letter-spacing:.3px}
+        .sub{margin-top:4px;font-size:12px;color:var(--muted)}
+
+        .card{
+            background:var(--glass);
+            border:1px solid var(--stroke);
+            border-radius:18px; padding:16px; backdrop-filter:blur(12px) saturate(120%);
+            box-shadow:0 10px 40px var(--shadow), inset 0 0 0 1px rgba(255,255,255,.02);
+            animation: pop .35s ease;
+        }
+        @keyframes pop{from{transform:scale(.985);opacity:.0}to{transform:scale(1);opacity:1}}
+
+        .timer{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; text-align:center;}
+        .tbox{
+            background: color-mix(in oklab, var(--card), #000 10%);
+            border:1px solid var(--stroke);
+            border-radius:14px; padding:12px 10px; position:relative; overflow:hidden;
+        }
+        .tbox::after{
+            content:""; position:absolute; inset:0; pointer-events:none;
+            background: radial-gradient(500px 90px at 50% -25%, color-mix(in oklab, var(--accent), transparent 75%), transparent 60%);
+            opacity:.7;
+        }
+        .tval{font-size:30px; font-weight:900; letter-spacing:.5px; text-shadow:0 0 12px color-mix(in oklab, var(--accent), transparent 70%)}
+        .tcap{font-size:10px; color:var(--muted); margin-top:2px; letter-spacing:.4px}
+        .date{margin:12px 2px 4px; font-size:13px; color:var(--muted)}
+        .accent{color:var(--accent2); font-weight:800; text-shadow:0 0 8px color-mix(in oklab, var(--accent2), transparent 65%)}
+
+        /* Блок плана по траве */
+        .bank{
+            margin-top:14px; display:grid; grid-template-columns: 1fr auto; gap:10px; align-items:start;
+        }
+        .bank-head{
+            grid-column:1/-1; display:flex; gap:8px; align-items:baseline; justify-content:space-between;
+        }
+        .badge{
+            font-weight:800; font-size:13px; letter-spacing:.4px;
+            padding:8px 12px; border-radius:999px; background: color-mix(in oklab, var(--card), #000 8%);
+            border:1px solid color-mix(in oklab, var(--accent), transparent 60%);
+            box-shadow: inset 0 0 20px color-mix(in oklab, var(--accent), transparent 88%);
+        }
+        .help{font-size:11px; color:var(--muted)}
+        .actions{display:flex; gap:10px; grid-column:1/-1}
+        .pill{
+            border:none; padding:12px 14px; border-radius:14px; cursor:pointer;
+            background:var(--accent); color:var(--accent-ink); font-weight:900; letter-spacing:.3px;
+            transition: transform .06s ease, filter .2s ease, box-shadow .2s ease;
+            box-shadow: 0 6px 20px color-mix(in oklab, var(--accent), transparent 70%), inset 0 -2px 0 rgba(0,0,0,.15);
+        }
+        .pill.ghost{
+            background: color-mix(in oklab, var(--card), #000 6%); color:var(--fg);
+            border:1px solid color-mix(in oklab, var(--accent), transparent 60%); box-shadow: 0 6px 14px var(--shadow);
+        }
+        .pill:active{transform:translateY(1px) scale(.98)}
+        .pill:hover{filter:brightness(1.06)}
+        .pill:focus-visible{
+            outline:2px solid var(--accent); outline-offset:2px;
+            box-shadow:0 0 0 4px color-mix(in oklab, var(--accent), transparent 70%);
+        }
+        .pill.small{padding:10px 12px}
+        .grams{
+            grid-column:1/-1; display:flex; justify-content:center; gap:10px; padding:10px;
+            background: color-mix(in oklab, var(--card), #000 10%); border:1px solid var(--stroke); border-radius:14px;
+        }
+        .gval{font-size:28px; font-weight:900; text-shadow:0 0 10px color-mix(in oklab, var(--accent), transparent 75%)}
+
+        .hint{margin-top:6px; font-size:11px; color:var(--muted); text-align:right}
+
+        .skyline{
+            position:absolute; left:0; right:0; bottom:0; height:130px; pointer-events:none; opacity:.22;
+            background:
+                    linear-gradient(180deg,transparent 0,transparent 92px,var(--accent2) 93px,var(--accent2) 96px,transparent 97px),
+                    repeating-linear-gradient(90deg,#0000 0 24px, color-mix(in oklab, #000, var(--bg)) 24px 26px);
+            mask:
+                    radial-gradient(120px 60px at 8% 100%,#000 98%,#0000 100%),
+                    radial-gradient(140px 70px at 28% 100%,#000 98%,#0000 100%),
+                    radial-gradient(110px 55px at 48% 100%,#000 98%,#0000 100%),
+                    radial-gradient(150px 75px at 68% 100%,#000 98%,#0000 100%),
+                    radial-gradient(120px 60px at 88% 100%,#000 98%,#0000 100%);
+            mask-composite: intersect;
+        }
+
+        .burst{
+            position:fixed; pointer-events:none; z-index:5; font-size:18px;
+            animation: fly 900ms ease-out forwards;
+            text-shadow: 0 0 10px rgba(255,255,255,.35);
+        }
+        @keyframes fly{
+            0%{transform:translate(var(--x,0),var(--y,0)) scale(.6); opacity:0}
+            10%{opacity:1}
+            100%{transform:translate(calc(var(--x,0) * 1.8), calc(var(--y,0) * 1.8 - 80px)) rotate(25deg) scale(1.25); opacity:0}
+        }
+        .shake{animation:shake .3s ease}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
+
+        @media (max-width:360px){
+            .tval{font-size:26px}
+            .gval{font-size:24px}
+        }
+        @media (prefers-color-scheme: light){
+            html:not([data-theme="dark"]){ color-scheme: light; }
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="logo" aria-hidden="true">🌿</div>
+        <div>
+            <h1>Amsterdam Countdown</h1>
+            <div class="sub" id="subtitle">Вылет скоро — держим темп</div>
+        </div>
+    </header>
+
+    <div class="card">
+        <div class="timer" role="timer" aria-live="polite">
+            <div class="tbox"><div class="tval" id="d">—</div><div class="tcap">дни</div></div>
+            <div class="tbox"><div class="tval" id="h">—</div><div class="tcap">часы</div></div>
+            <div class="tbox"><div class="tval" id="m">—</div><div class="tcap">мин</div></div>
+            <div class="tbox"><div class="tval" id="s">—</div><div class="tcap">сек</div></div>
+        </div>
+        <div class="date">✈️ <span class="accent">5 декабря 2025, 12:00</span></div>
+
+        <div class="bank" aria-labelledby="weedTitle" aria-describedby="weedHelp">
+            <div class="bank-head">
+                <div id="weedTitle" class="badge" title="Это счётчик плана по марихуане на поездку">План по траве</div>
+                <div id="weedHelp" class="help">сколько <strong>планируешь</strong> скурить (локально, без огласки)</div>
+            </div>
+
+            <div class="actions">
+                <button class="pill" id="incBtn" aria-label="+1 грамм к плану">+1 г к плану</button>
+                <button class="pill ghost" id="decBtn" aria-label="Самоконтроль — минус 1 грамм" hidden>Самоконтроль −1 г</button>
+            </div>
+
+            <div class="grams"><div class="gval" id="grams" aria-live="polite">0 г</div></div>
+        </div>
+
+        <div class="hint">Локально. Никому не расскажем. 🫢</div>
+    </div>
+</div>
+
+<div class="skyline" aria-hidden="true"></div>
+
+<script>
+    // === Telegram theme integration (без потери контраста) ===
+    (function applyTelegramTheme(){
+        const tg = window.Telegram?.WebApp;
+        if (!tg) return;
+
+        tg.expand();
+        const theme = (tg.colorScheme || 'light').toLowerCase();
+        document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+
+        const p = tg.themeParams || {};
+        const set = (cssVar, val) => { if (val) document.documentElement.style.setProperty(cssVar, val); };
+        set('--accent', p.button_color);
+        set('--accent2', p.link_color);
+        if (p.button_text_color) set('--accent-ink', p.button_text_color);
+        if (p.hint_color) document.documentElement.style.setProperty('--muted', p.hint_color);
+    })();
+
+    // === Countdown ===
+    const dEl = document.getElementById('d'),
+        hEl = document.getElementById('h'),
+        mEl = document.getElementById('m'),
+        sEl = document.getElementById('s'),
+        subEl = document.getElementById('subtitle');
+
+    function getTarget(){ return new Date('2025-12-05T12:00:00'); }
+    const TARGET = getTarget();
+
+    function tick(){
+        const now = new Date();
+        const diff = TARGET - now;
+        if (diff <= 0){
+            dEl.textContent=hEl.textContent=mEl.textContent=sEl.textContent='0';
+            subEl.textContent = 'Пора взлетать! ✈️';
+            sparkBurst(window.innerWidth/2, 40, ['✨','🌿','🧡']);
+            return;
+        }
+        const t = Math.floor(diff/1000);
+        const d = Math.floor(t/86400);
+        const h = Math.floor((t%86400)/3600);
+        const m = Math.floor((t%3600)/60);
+        const s = t%60;
+        dEl.textContent = d.toLocaleString('ru-RU');
+        hEl.textContent = h.toString().padStart(2,'0');
+        mEl.textContent = m.toString().padStart(2,'0');
+        sEl.textContent = s.toString().padStart(2,'0');
+    }
+    tick(); const _timer = setInterval(tick, 1000);
+
+    // === План по траве (граммы) ===
+    const LS_KEY='ams.weed.plan.v1';
+    const gramsEl=document.getElementById('grams');
+    const inc=document.getElementById('incBtn');
+    const dec=document.getElementById('decBtn');
+
+    const funnyLines = [
+        'Самоконтроль подключён 🧘',
+        'Сегодня бережём лёгкие 💨🚫',
+        'Минус грамм, плюс уважение к себе ✨',
+        'План не камень — подвинулся 😉',
+        'Амстердам подождёт, организм — не очень 😅',
+    ];
+
+    function read(){
+        const n = parseInt(localStorage.getItem(LS_KEY)||'0',10);
+        return Number.isFinite(n)?Math.max(0,n):0;
+    }
+    function write(n){
+        const v = Math.max(0, n);
+        localStorage.setItem(LS_KEY, String(v));
+        render();
+    }
+    function render(){
+        const val = read();
+        gramsEl.textContent = val.toLocaleString('ru-RU') + ' г';
+        dec.hidden = val <= 0; // показываем «минус» только когда есть что сокращать
+    }
+
+    function haptic(type){ try{ window.Telegram?.WebApp?.HapticFeedback?.impactOccurred(type||'light'); }catch{} }
+
+    function sparkBurst(x, y, set=['🌿','💥','🟠','✨']){
+        const n = 12;
+        for (let i=0;i<n;i++){
+            const e = document.createElement('div');
+            e.className='burst';
+            e.textContent = set[i % set.length];
+            const ang = (Math.PI*2/n)*i + (Math.random()*0.5-0.25);
+            const dist = 60 + Math.random()*40;
+            const dx = Math.cos(ang)*dist, dy = Math.sin(ang)*dist;
+            e.style.left = x + 'px'; e.style.top = y + 'px';
+            e.style.setProperty('--x', dx+'px'); e.style.setProperty('--y', dy+'px');
+            document.body.appendChild(e);
+            setTimeout(()=>e.remove(), 900);
+        }
+    }
+    function cursorPoint(ev){
+        if (ev.touches && ev.touches[0]) return {x:ev.touches[0].clientX,y:ev.touches[0].clientY};
+        return {x:ev.clientX,y:ev.clientY};
+    }
+    function pulse(el){
+        el.style.transition='transform .12s ease, text-shadow .2s ease';
+        el.style.transform='scale(1.06)'; el.style.textShadow='0 0 18px var(--ring)';
+        setTimeout(()=>{ el.style.transform='scale(1)'; el.style.textShadow='0 0 10px color-mix(in oklab, var(--accent), transparent 75%)'; },120);
+    }
+    function toastLine(text){
+        const e = document.createElement('div');
+        e.className='badge';
+        e.style.position='fixed'; e.style.left='50%'; e.style.top='12px';
+        e.style.transform='translateX(-50%)'; e.style.zIndex='6';
+        e.style.backdropFilter='blur(8px)'; e.style.padding='10px 14px';
+        e.textContent = text;
+        document.body.appendChild(e);
+        setTimeout(()=>{ e.style.transition='opacity .25s ease, transform .25s ease'; e.style.opacity='0'; e.style.transform='translateX(-50%) translateY(-6px)'; },1200);
+        setTimeout(()=>e.remove(), 1600);
+    }
+
+    inc.addEventListener('click', (ev)=>{
+        write(read()+1); haptic('medium');
+        const {x,y}=cursorPoint(ev); sparkBurst(x,y,['🌿','✨','🧡']);
+        pulse(gramsEl);
+    });
+
+    dec.addEventListener('click', (ev)=>{
+        if (read()>0){
+            write(read()-1); haptic('light');
+            const {x,y}=cursorPoint(ev); sparkBurst(x,y,['🧘','✨','🥦']);
+            pulse(gramsEl);
+            toastLine(funnyLines[Math.floor(Math.random()*funnyLines.length)]);
+        }
+    });
+
+    render();
+</script>
+</body>
+</html>
