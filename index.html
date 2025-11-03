@@ -7,195 +7,387 @@
     <title>Amsterdam Countdown</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root{
-            --bg:#0b1220; --fg:#eaf7ea; --muted:#9bb39b; --card:#0e1830;
-            --accent:#20df6b; --accent-ink:#062412; --accent2:#ff7b00;
-            --glass: rgba(15,26,47,.72);
-            --stroke: rgba(255,255,255,.08);
-            --ring: rgba(32,223,107,.45);
-            --shadow: rgba(0,0,0,.45);
-        }
-        html[data-theme="light"]{
-            --bg:#f6fff6; --fg:#0a1a0f; --muted:#496649; --card:#ecfff0;
-            --accent:#0db36a; --accent-ink:#031a10; --accent2:#df5e00;
-            --glass: rgba(236,255,240,.78);
-            --stroke: rgba(0,0,0,.08);
-            --ring: rgba(13,179,106,.35);
-            --shadow: rgba(0,0,0,.12);
+        :root {
+            --bg: #0b1220;
+            --fg: #eaf7ea;
+            --muted: #9bb39b;
+            --card: #0e1830;
+            --accent: #20df6b;
+            --accent-ink: #062412;
+            --accent2: #ff7b00;
+            --glass: rgba(15, 26, 47, .72);
+            --stroke: rgba(255, 255, 255, .08);
+            --ring: rgba(32, 223, 107, .45);
+            --shadow: rgba(0, 0, 0, .45);
         }
 
-        html,body{height:100%}
-        body{
-            margin:0; color:var(--fg);
-            font:16px/1.5 system-ui,-apple-system,Inter,Segoe UI,Roboto,sans-serif;
+        html[data-theme="light"] {
+            --bg: #f6fff6;
+            --fg: #0a1a0f;
+            --muted: #496649;
+            --card: #ecfff0;
+            --accent: #0db36a;
+            --accent-ink: #031a10;
+            --accent2: #df5e00;
+            --glass: rgba(236, 255, 240, .78);
+            --stroke: rgba(0, 0, 0, .08);
+            --ring: rgba(13, 179, 106, .35);
+            --shadow: rgba(0, 0, 0, .12);
+        }
+
+        html, body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            color: var(--fg);
+            font: 16px/1.5 system-ui, -apple-system, Inter, Segoe UI, Roboto, sans-serif;
             background: var(--bg);
-            background-image:
-                    radial-gradient(1100px 520px at 10% -10%, color-mix(in oklab, var(--bg), #123 25%) 0%, var(--bg) 60%),
-                    radial-gradient(900px 480px at 110% 110%, color-mix(in oklab, var(--bg), #223a66 35%) 0%, var(--bg) 58%);
-            overflow-x:hidden;
-            -webkit-font-smoothing:antialiased;
-            text-rendering:optimizeLegibility;
+            background-image: radial-gradient(1100px 520px at 10% -10%, color-mix(in oklab, var(--bg), #123 25%) 0%, var(--bg) 60%),
+            radial-gradient(900px 480px at 110% 110%, color-mix(in oklab, var(--bg), #223a66 35%) 0%, var(--bg) 58%);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
             /* UX: remove ugly highlight & accidental zoom on tap */
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
         }
 
-        .wrap{max-width:680px;margin:0 auto;padding:24px 16px 160px;position:relative;z-index:2}
-        header{display:flex;gap:12px;align-items:center;margin-bottom:14px}
-        .logo{font-size:26px;filter:drop-shadow(0 0 10px var(--ring))}
-        h1{margin:0;font-size:20px;letter-spacing:.3px}
-        .sub{margin-top:4px;font-size:12px;color:var(--muted)}
+        .wrap {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 24px 16px 160px;
+            position: relative;
+            z-index: 2
+        }
 
-        .card{
-            background:var(--glass);
-            border:1px solid var(--stroke);
-            border-radius:18px; padding:16px; backdrop-filter:blur(12px) saturate(120%);
-            box-shadow:0 10px 40px var(--shadow), inset 0 0 0 1px rgba(255,255,255,.02);
+        header {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 14px
+        }
+
+        .logo {
+            font-size: 26px;
+            filter: drop-shadow(0 0 10px var(--ring))
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 20px;
+            letter-spacing: .3px
+        }
+
+        .sub {
+            margin-top: 4px;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--stroke);
+            border-radius: 18px;
+            padding: 16px;
+            backdrop-filter: blur(12px) saturate(120%);
+            box-shadow: 0 10px 40px var(--shadow), inset 0 0 0 1px rgba(255, 255, 255, .02);
             animation: pop .35s ease;
         }
-        @keyframes pop{from{transform:scale(.985);opacity:.0}to{transform:scale(1);opacity:1}}
 
-        .timer{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; text-align:center;}
-        .tbox{
+        @keyframes pop {
+            from {
+                transform: scale(.985);
+                opacity: .0
+            }
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        .timer {
+            display: grid;
+            grid-template-columns:repeat(4, 1fr);
+            gap: 12px;
+            text-align: center;
+        }
+
+        .tbox {
             background: color-mix(in oklab, var(--card), #000 10%);
-            border:1px solid var(--stroke);
-            border-radius:14px; padding:12px 10px; position:relative; overflow:hidden;
+            border: 1px solid var(--stroke);
+            border-radius: 14px;
+            padding: 12px 10px;
+            position: relative;
+            overflow: hidden;
         }
-        .tbox::after{
-            content:""; position:absolute; inset:0; pointer-events:none;
+
+        .tbox::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
             background: radial-gradient(500px 90px at 50% -25%, color-mix(in oklab, var(--accent), transparent 75%), transparent 60%);
-            opacity:.7;
+            opacity: .7;
         }
-        .tval{font-size:30px; font-weight:900; letter-spacing:.5px; text-shadow:0 0 12px color-mix(in oklab, var(--accent), transparent 70%)}
-        .tcap{font-size:10px; color:var(--muted); margin-top:2px; letter-spacing:.4px}
-        .date{margin:12px 2px 4px; font-size:13px; color:var(--muted)}
-        .accent{color:var(--accent2); font-weight:800; text-shadow:0 0 8px color-mix(in oklab, var(--accent2), transparent 65%)}
+
+        .tval {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: .5px;
+            text-shadow: 0 0 12px color-mix(in oklab, var(--accent), transparent 70%)
+        }
+
+        .tcap {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 2px;
+            letter-spacing: .4px
+        }
+
+        .date {
+            margin: 12px 2px 4px;
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .accent {
+            color: var(--accent2);
+            font-weight: 800;
+            text-shadow: 0 0 8px color-mix(in oklab, var(--accent2), transparent 65%)
+        }
 
         /* Блок плана по траве */
-        .bank{
-            margin-top:14px; display:grid; grid-template-columns: 1fr auto; gap:10px; align-items:start;
+        .bank {
+            margin-top: 14px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: start;
         }
-        .bank-head{
-            grid-column:1/-1; display:flex; gap:8px; align-items:baseline; justify-content:space-between;
+
+        .bank-head {
+            grid-column: 1/-1;
+            display: flex;
+            gap: 8px;
+            align-items: baseline;
+            justify-content: space-between;
         }
-        .badge{
-            font-weight:800; font-size:13px; letter-spacing:.4px;
-            padding:8px 12px; border-radius:999px; background: color-mix(in oklab, var(--card), #000 8%);
-            border:1px solid color-mix(in oklab, var(--accent), transparent 60%);
+
+        .badge {
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: .4px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: color-mix(in oklab, var(--card), #000 8%);
+            border: 1px solid color-mix(in oklab, var(--accent), transparent 60%);
             box-shadow: inset 0 0 20px color-mix(in oklab, var(--accent), transparent 88%);
         }
-        .help{font-size:11px; color:var(--muted)}
-        .actions{display:flex; gap:10px; grid-column:1/-1}
-        .pill{
-            border:none; padding:12px 14px; border-radius:14px; cursor:pointer;
-            background:var(--accent); color:var(--accent-ink); font-weight:900; letter-spacing:.3px;
+
+        .help {
+            font-size: 11px;
+            color: var(--muted)
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            grid-column: 1/-1
+        }
+
+        .pill {
+            border: none;
+            padding: 12px 14px;
+            border-radius: 14px;
+            cursor: pointer;
+            background: var(--accent);
+            color: var(--accent-ink);
+            font-weight: 900;
+            letter-spacing: .3px;
             transition: transform .06s ease, filter .2s ease, box-shadow .2s ease;
-            box-shadow: 0 6px 20px color-mix(in oklab, var(--accent), transparent 70%), inset 0 -2px 0 rgba(0,0,0,.15);
+            box-shadow: 0 6px 20px color-mix(in oklab, var(--accent), transparent 70%), inset 0 -2px 0 rgba(0, 0, 0, .15);
             /* UX: prevent double-tap zoom on iOS/Android */
             touch-action: manipulation;
         }
-        .pill.ghost{
-            background: color-mix(in oklab, var(--card), #000 6%); color:var(--fg);
-            border:1px solid color-mix(in oklab, var(--accent), transparent 60%); box-shadow: 0 6px 14px var(--shadow);
-        }
-        .pill:active{transform:translateY(1px) scale(.98)}
-        .pill:hover{filter:brightness(1.06)}
-        .pill:focus-visible{
-            outline:2px solid var(--accent); outline-offset:2px;
-            box-shadow:0 0 0 4px color-mix(in oklab, var(--accent), transparent 70%);
-        }
-        .pill.small{padding:10px 12px}
-        .grams{
-            grid-column:1/-1; display:flex; justify-content:center; gap:10px; padding:10px;
-            background: color-mix(in oklab, var(--card), #000 10%); border:1px solid var(--stroke); border-radius:14px;
-        }
-        .gval{font-size:28px; font-weight:900; text-shadow:0 0 10px color-mix(in oklab, var(--accent), transparent 75%)}
 
-        .hint{margin-top:6px; font-size:11px; color:var(--muted); text-align:right}
+        .pill.ghost {
+            background: color-mix(in oklab, var(--card), #000 6%);
+            color: var(--fg);
+            border: 1px solid color-mix(in oklab, var(--accent), transparent 60%);
+            box-shadow: 0 6px 14px var(--shadow);
+        }
+
+        .pill:active {
+            transform: translateY(1px) scale(.98)
+        }
+
+        .pill:hover {
+            filter: brightness(1.06)
+        }
+
+        .pill:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 70%);
+        }
+
+        .pill.small {
+            padding: 10px 12px
+        }
+
+        .grams {
+            grid-column: 1/-1;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            background: color-mix(in oklab, var(--card), #000 10%);
+            border: 1px solid var(--stroke);
+            border-radius: 14px;
+        }
+
+        .gval {
+            font-size: 28px;
+            font-weight: 900;
+            text-shadow: 0 0 10px color-mix(in oklab, var(--accent), transparent 75%)
+        }
+
+        .hint {
+            margin-top: 6px;
+            font-size: 11px;
+            color: var(--muted);
+            text-align: right
+        }
 
         /* Блок фактов про Амстердам */
-        .facts{
-            margin-top:18px;
-            display:flex;
-            flex-direction:column;
-            gap:10px;
-        }
-        .facts-head{
-            display:flex;
-            align-items:baseline;
-            justify-content:space-between;
-            gap:8px;
-        }
-        .facts-help{
-            font-size:11px;
-            color:var(--muted);
-        }
-        .fact-card{
-            padding:12px 12px;
-            border-radius:14px;
-            border:1px solid var(--stroke);
-            background: color-mix(in oklab, var(--card), #000 10%);
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
-            font-size:13px;
-            line-height:1.5;
-        }
-        .fact-label{
-            font-weight:700;
-            font-size:11px;
-            text-transform:uppercase;
-            letter-spacing:.12em;
-            color:var(--muted);
-            margin-bottom:4px;
-        }
-        .fact-text{
-            font-size:13px;
+        .facts {
+            margin-top: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .skyline{
-            position:absolute; left:0; right:0; bottom:0; height:130px; pointer-events:none; opacity:.22;
-            background:
-                    linear-gradient(180deg,transparent 0,transparent 92px,var(--accent2) 93px,var(--accent2) 96px,transparent 97px),
-                    repeating-linear-gradient(90deg,#0000 0 24px, color-mix(in oklab, #000, var(--bg)) 24px 26px);
-            mask:
-                    radial-gradient(120px 60px at 8% 100%,#000 98%,#0000 100%),
-                    radial-gradient(140px 70px at 28% 100%,#000 98%,#0000 100%),
-                    radial-gradient(110px 55px at 48% 100%,#000 98%,#0000 100%),
-                    radial-gradient(150px 75px at 68% 100%,#000 98%,#0000 100%),
-                    radial-gradient(120px 60px at 88% 100%,#000 98%,#0000 100%);
+        .facts-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .facts-help {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .fact-card {
+            padding: 12px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--stroke);
+            background: color-mix(in oklab, var(--card), #000 10%);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .02);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .fact-label {
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        .fact-text {
+            font-size: 13px;
+        }
+
+        .skyline {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 130px;
+            pointer-events: none;
+            opacity: .22;
+            background: linear-gradient(180deg, transparent 0, transparent 92px, var(--accent2) 93px, var(--accent2) 96px, transparent 97px),
+            repeating-linear-gradient(90deg, #0000 0 24px, color-mix(in oklab, #000, var(--bg)) 24px 26px);
+            mask: radial-gradient(120px 60px at 8% 100%, #000 98%, #0000 100%),
+            radial-gradient(140px 70px at 28% 100%, #000 98%, #0000 100%),
+            radial-gradient(110px 55px at 48% 100%, #000 98%, #0000 100%),
+            radial-gradient(150px 75px at 68% 100%, #000 98%, #0000 100%),
+            radial-gradient(120px 60px at 88% 100%, #000 98%, #0000 100%);
             mask-composite: intersect;
         }
 
-        .burst{
-            position:fixed; pointer-events:none; z-index:5; font-size:18px;
+        .burst {
+            position: fixed;
+            pointer-events: none;
+            z-index: 5;
+            font-size: 18px;
             animation: fly 900ms ease-out forwards;
-            text-shadow: 0 0 10px rgba(255,255,255,.35);
+            text-shadow: 0 0 10px rgba(255, 255, 255, .35);
         }
-        @keyframes fly{
-            0%{transform:translate(var(--x,0),var(--y,0)) scale(.6); opacity:0}
-            10%{opacity:1}
-            100%{transform:translate(calc(var(--x,0) * 1.8), calc(var(--y,0) * 1.8 - 80px)) rotate(25deg) scale(1.25); opacity:0}
+
+        @keyframes fly {
+            0% {
+                transform: translate(var(--x, 0), var(--y, 0)) scale(.6);
+                opacity: 0
+            }
+            10% {
+                opacity: 1
+            }
+            100% {
+                transform: translate(calc(var(--x, 0) * 1.8), calc(var(--y, 0) * 1.8 - 80px)) rotate(25deg) scale(1.25);
+                opacity: 0
+            }
         }
-        .shake{animation:shake .3s ease}
-        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
+
+        .shake {
+            animation: shake .3s ease
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0)
+            }
+            25% {
+                transform: translateX(-2px)
+            }
+            75% {
+                transform: translateX(2px)
+            }
+        }
 
         /* Respect prefers-reduced-motion: disable “extra” animations */
-        @media (prefers-reduced-motion: reduce){
+        @media (prefers-reduced-motion: reduce) {
             .card,
             .burst,
-            .shake{
-                animation:none !important;
+            .shake {
+                animation: none !important;
             }
-            .pill{
-                transition:none;
+
+            .pill {
+                transition: none;
             }
         }
 
-        @media (max-width:360px){
-            .tval{font-size:26px}
-            .gval{font-size:24px}
+        @media (max-width: 360px) {
+            .tval {
+                font-size: 26px
+            }
+
+            .gval {
+                font-size: 24px
+            }
         }
-        @media (prefers-color-scheme: light){
-            html:not([data-theme="dark"]){ color-scheme: light; }
+
+        @media (prefers-color-scheme: light) {
+            html:not([data-theme="dark"]) {
+                color-scheme: light;
+            }
         }
     </style>
 </head>
@@ -211,17 +403,30 @@
 
     <div class="card">
         <div class="timer" role="timer" aria-live="polite">
-            <div class="tbox"><div class="tval" id="d">—</div><div class="tcap">дни</div></div>
-            <div class="tbox"><div class="tval" id="h">—</div><div class="tcap">часы</div></div>
-            <div class="tbox"><div class="tval" id="m">—</div><div class="tcap">мин</div></div>
-            <div class="tbox"><div class="tval" id="s">—</div><div class="tcap">сек</div></div>
+            <div class="tbox">
+                <div class="tval" id="d">—</div>
+                <div class="tcap">дни</div>
+            </div>
+            <div class="tbox">
+                <div class="tval" id="h">—</div>
+                <div class="tcap">часы</div>
+            </div>
+            <div class="tbox">
+                <div class="tval" id="m">—</div>
+                <div class="tcap">мин</div>
+            </div>
+            <div class="tbox">
+                <div class="tval" id="s">—</div>
+                <div class="tcap">сек</div>
+            </div>
         </div>
         <div class="date">✈️ <span class="accent">5 декабря 2025, 12:00</span></div>
 
         <div class="bank" aria-labelledby="weedTitle" aria-describedby="weedHelp">
             <div class="bank-head">
                 <div id="weedTitle" class="badge" title="Это счётчик плана по марихуане на поездку">План по траве</div>
-                <div id="weedHelp" class="help">сколько <strong>планируешь</strong> скурить (локально, без огласки)</div>
+                <div id="weedHelp" class="help">сколько <strong>планируешь</strong> скурить (локально, без огласки)
+                </div>
             </div>
 
             <div class="actions">
@@ -268,7 +473,7 @@
 
 <script>
     // === Telegram theme integration (без потери контраста) ===
-    (function applyTelegramTheme(){
+    (function applyTelegramTheme() {
         const tg = window.Telegram?.WebApp;
         if (!tg) return;
 
@@ -298,14 +503,14 @@
     // NOTE: this is interpreted in user's local timezone
     const TARGET = new Date('2025-12-05T12:00:00');
 
-    function updateTimer(diffMs){
-        if (diffMs <= 0){
+    function updateTimer(diffMs) {
+        if (diffMs <= 0) {
             dEl.textContent = '0';
             hEl.textContent = '00';
             mEl.textContent = '00';
             sEl.textContent = '00';
             subEl.textContent = 'Пора взлетать! ✈️';
-            sparkBurst(window.innerWidth / 2, 40, ['✨','🌿','🧡']);
+            sparkBurst(window.innerWidth / 2, 40, ['✨', '🌿', '🧡']);
             return false;
         }
         const totalSeconds = Math.floor(diffMs / 1000);
@@ -315,9 +520,9 @@
         const seconds = totalSeconds % 60;
 
         dEl.textContent = days.toLocaleString('ru-RU');
-        hEl.textContent = hours.toString().padStart(2,'0');
-        mEl.textContent = minutes.toString().padStart(2,'0');
-        sEl.textContent = seconds.toString().padStart(2,'0');
+        hEl.textContent = hours.toString().padStart(2, '0');
+        mEl.textContent = minutes.toString().padStart(2, '0');
+        sEl.textContent = seconds.toString().padStart(2, '0');
         return true;
     }
 
@@ -325,7 +530,7 @@
         const now = new Date();
         const diff = TARGET.getTime() - now.getTime();
         const stillRunning = updateTimer(diff);
-        if (!stillRunning){
+        if (!stillRunning) {
             clearInterval(timerId);
         }
     }, 1000);
@@ -346,44 +551,44 @@
         'Амстердам подождёт, организм — не очень 😅',
     ];
 
-    function readFromStorage(){
-        try{
+    function readFromStorage() {
+        try {
             const raw = localStorage.getItem(LS_KEY) || '0';
             const n = parseInt(raw, 10);
             if (!Number.isFinite(n) || n < 0) return 0;
             return n;
-        }catch{
+        } catch {
             return 0;
         }
     }
 
     let gramsValue = readFromStorage();
 
-    function saveToStorage(value){
-        try{
+    function saveToStorage(value) {
+        try {
             localStorage.setItem(LS_KEY, String(value));
-        }catch{
+        } catch {
             // ignore quota / privacy errors
         }
     }
 
-    function renderGrams(){
+    function renderGrams() {
         gramsEl.textContent = gramsValue.toLocaleString('ru-RU') + ' г';
         dec.hidden = gramsValue <= 0;
     }
 
-    function haptic(type){
-        try{
+    function haptic(type) {
+        try {
             window.Telegram?.WebApp?.HapticFeedback?.impactOccurred(type || 'light');
-        }catch{
+        } catch {
             // non-Telegram or unsupported — just ignore
         }
     }
 
-    function sparkBurst(x, y, set){
-        const emojis = set || ['🌿','💥','🟠','✨'];
+    function sparkBurst(x, y, set) {
+        const emojis = set || ['🌿', '💥', '🟠', '✨'];
         const n = 12;
-        for (let i = 0; i < n; i += 1){
+        for (let i = 0; i < n; i += 1) {
             const e = document.createElement('div');
             e.className = 'burst';
             e.textContent = emojis[i % emojis.length];
@@ -400,14 +605,14 @@
         }
     }
 
-    function cursorPoint(ev){
-        if (ev.touches && ev.touches[0]){
-            return { x: ev.touches[0].clientX, y: ev.touches[0].clientY };
+    function cursorPoint(ev) {
+        if (ev.touches && ev.touches[0]) {
+            return {x: ev.touches[0].clientX, y: ev.touches[0].clientY};
         }
-        return { x: ev.clientX, y: ev.clientY };
+        return {x: ev.clientX, y: ev.clientY};
     }
 
-    function pulse(el){
+    function pulse(el) {
         el.style.transition = 'transform .12s ease, text-shadow .2s ease';
         el.style.transform = 'scale(1.06)';
         el.style.textShadow = '0 0 18px var(--ring)';
@@ -417,7 +622,7 @@
         }, 120);
     }
 
-    function toastLine(text){
+    function toastLine(text) {
         const e = document.createElement('div');
         e.className = 'badge';
         e.style.position = 'fixed';
@@ -442,8 +647,8 @@
         saveToStorage(gramsValue);
         renderGrams();
         haptic('medium');
-        const { x, y } = cursorPoint(ev);
-        sparkBurst(x, y, ['🌿','✨','🧡']);
+        const {x, y} = cursorPoint(ev);
+        sparkBurst(x, y, ['🌿', '✨', '🧡']);
         pulse(gramsEl);
     });
 
@@ -453,8 +658,8 @@
         saveToStorage(gramsValue);
         renderGrams();
         haptic('light');
-        const { x, y } = cursorPoint(ev);
-        sparkBurst(x, y, ['🧘','✨','🥦']);
+        const {x, y} = cursorPoint(ev);
+        sparkBurst(x, y, ['🧘', '✨', '🥦']);
         pulse(gramsEl);
         const randomIndex = Math.floor(Math.random() * funnyLines.length);
         toastLine(funnyLines[randomIndex]);
@@ -464,26 +669,26 @@
 
     // === Факты про Амстердам, каннабис и трюфели ===
     const FACTS = [
-        'В Нидерландах каннабис официально остаётся незаконным, но для небольших количеств действует политика «терпимости» — gedoogbeleid.',
-        'В Амстердаме в кофешопах туристам старше 18 лет разрешено покупать и употреблять каннабис внутри заведения, при наличии паспорта или другого документа.',
-        'В большинстве кофешопов есть лимит: не более 5 граммов каннабиса в день на человека — это максимум для личного пользования.',
-        'В районе квартала красных фонарей и рядом с ним курить джойнт на улице запрещено, за это можно получить штраф порядка 100 евро.',
-        'Кофешоп — это место, где продают каннабис, но не продают алкоголь. Смешивать алкоголь и траву считается плохой идеей из-за непредсказуемых эффектов.',
-        'Во многих кофешопах действует правило: либо алкоголь, либо каннабис. Даже сами голландцы считают микс «пиво + космос» не лучшим решением.',
-        'В кофешопах есть меню с сортами и силой продукта. Новичкам советуют брать самый лёгкий вариант и ждать эффект не меньше 30–60 минут.',
-        'В Нидерландах идёт эксперимент с регулируемыми поставками каннабиса, чтобы травка для кофешопов выращивалась легально и контролировалась государством.',
-        'Классические «волшебные грибы» (magic mushrooms) в Нидерландах запрещены с 2008 года и не могут продаваться легально.',
-        'Магические трюфели — подземная часть гриба со псилоцибином. Они легальны и продаются в смартшопах, хотя действующее вещество то же самое.',
-        'Смартшопы в Амстердаме специализируются на «умных товарах»: трюфели, микродозинг-наборы, книги, аксессуары и тест-киты для веществ.',
-        'В нормальных смартшопах сотрудники объясняют дозировки, риски и противопоказания. Если тебе говорят «лучше не смешивать», это реально забота о тебе.',
-        'Даже при политике терпимости полиция может изъять каннабис или трюфели, если ты превышаешь лимит или устраиваешь движ на улице.',
-        'Городские власти Амстердама активно борются с наркотуризмом и продвигают идею «приезжай не только ради травы и бухла, а ради города и культуры».',
-        'Негласное правило местных: «уважай соседей» — не ори под окнами, не кури под дверями, не оставляй мусор. За шум легко получить штраф.',
-        'Во многих кофешопах нельзя курить табак внутри. Для миксов иногда есть отдельные комнаты или предлагают травяные смеси без никотина.',
-        'Возрастной порог для кофешопов и смартшопов — 18+. Без нормального удостоверения личности могут просто не пустить внутрь.',
-        'Меню в кофешопах часто делят по эффектам: «расслабляющий», «энергичный», «творческий», но реакция организма индивидуальна, поэтому всегда начинай с мини-доз.',
-        'В Нидерландах различают «мягкие» и «твёрдые» наркотики. Политика терпимости касается только мягких, с остальными законы очень строгие.',
-        'Главное негласное правило Амстердама: «enjoy, но с головой» — не мешай всё подряд, следи за дозой, пей воду, ешь и делай всё только там, где это разрешено.'
+        'Первый амстердамский кофешоп Mellow Yellow открылся в 1972 году в бывшей булочной, захваченной хиппи. Он стал одним из первых мест в мире, где траву продавали почти открыто.',
+        'Система кофешопов родилась как компромисс: государство хотело отделить мягкие наркотики от тяжёлых и вытащить курильщиков из подполья к контролируемым местам.',
+        'По национальным правилам кофешоп не имеет права продать тебе больше 5 граммов за раз — всё, что выше, уже не считается «личным пользованием».',
+        'У кофешопов есть знаменитая «проблема чёрного входа»: им разрешено продавать каннабис, но официальный и полностью легальный оптовый закуп до сих пор не прописан в законе.',
+        'Mellow Yellow закрыли в 2017-м из-за правила «250 метров от школы» — так Амстердам договорился с Гаагой, чтобы избежать жёсткого запрета на иностранцев в кофешопах.',
+        'В центре Амстердама (ред-лайт, Дам и Дамрак) нельзя курить траву на улице: сначала предупреждение, потом штраф около 100 евро, если продолжаешь.',
+        'Запрет на курение на улице не распространяется на террасы кофешопов: формально сидеть с джойнтом можно только на лицензированной площадке, а не просто в толпе.',
+        'Мэр Амстердама несколько раз предлагала запретить продажу травы туристам — город устал от «наркотуризма» и хочет, чтобы люди приезжали ещё и за культурой.',
+        'Город запускал кампанию Stay Away и онлайн-квиз для «токсичных» туристов: с вопросами в духе «ты сюда за музеями или только за сплифом и бархоппингом?».',
+        'До 2008 года в смартшопах свободно продавались обычные «магические грибы», но после нескольких резонансных случаев их запретили и оставили только трюфели.',
+        'Магические трюфели — это подземные скопления мицелия (склероции). Закон формально отделил их от грибов, поэтому после запрета грибов трюфели внезапно стали отдельной легальной индустрией.',
+        'Смартшопы в Нидерландах — это не только трюфели: там продают тест-киты для веществ, витамины, книги и всякий другой хардкорный harm-reduction-инвентарь для рейверов.',
+        'Нидерланды были одними из первых, кто начал проверять вещества для клубной сцены: национальная система DIMS работает с начала 1990-х и анонимно тестирует образцы, чтобы вовремя ловить особенно опасные партии.',
+        'В Амстердаме есть сервисы вроде Jellinek и GGD, где можно анонимно протестировать таблетки и порошки и параллельно получить лекцию про риски от людей, которые этим занимаются профессионально.',
+        'Взрослому человеку в Нидерландах официально «терпят» до 5 граммов каннабиса или несколько кустов: максимум заберут и выкинут, но не сделают из тебя тяжёлого преступника.',
+        'Кофешопы живут по набору жёстких правил: нельзя рекламировать траву, пускать несовершеннолетних, продавать тяжёлые наркотики, создавать шум или держать большие запасы на складе.',
+        'Разделение на «мягкие» и «твёрдые» наркотики — не просто слова: вся странная голландская система построена на том, чтобы мягкое контролировать и снижать вред, а тяжёлое по-прежнему пресекать по полной.',
+        'Амстердамские врачи и скорые регулярно имеют дело с туристами, которые переборщили с каннабисом — особенно с едой вроде spacecake, где эффект приходит поздно и бьёт гораздо сильнее, чем ожидалось.',
+        'Из-за сильных сортов и плотной городской застройки полиция периодически жалуется на случаи, когда люди под веществами падают с балконов или в каналы — местные к этому относятся очень серьёзно.',
+        'Сами амстердамцы всё громче ругаются на овертуризм: жители уже даже подают коллективные иски к городу, чтобы ограничить поток туристов и не превращать центр в вечную тусовку ради дешёвой травы и алкоголя.'
     ];
 
     const factBtn = document.getElementById('factBtn');
@@ -491,25 +696,25 @@
 
     let lastFactIndex = -1;
 
-    function getRandomFact(){
+    function getRandomFact() {
         if (!FACTS.length) return '';
         if (FACTS.length === 1) return FACTS[0];
         let idx;
-        do{
+        do {
             idx = Math.floor(Math.random() * FACTS.length);
-        }while(idx === lastFactIndex);
+        } while (idx === lastFactIndex);
         lastFactIndex = idx;
         return FACTS[idx];
     }
 
-    if (factBtn && factTextEl){
+    if (factBtn && factTextEl) {
         factBtn.addEventListener('click', (ev) => {
             const fact = getRandomFact();
             if (!fact) return;
             factTextEl.textContent = fact;
             haptic('light');
-            const { x, y } = cursorPoint(ev);
-            sparkBurst(x, y, ['📚','🌿','✨']);
+            const {x, y} = cursorPoint(ev);
+            sparkBurst(x, y, ['📚', '🌿', '✨']);
             factTextEl.classList.add('shake');
             setTimeout(() => factTextEl.classList.remove('shake'), 300);
         });
