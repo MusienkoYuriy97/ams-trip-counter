@@ -36,7 +36,7 @@
         }
 
         html, body {
-            height: 100%
+            height: 100%;
         }
 
         body {
@@ -49,7 +49,6 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
-            /* UX: remove ugly highlight & accidental zoom on tap */
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
         }
@@ -59,31 +58,31 @@
             margin: 0 auto;
             padding: 24px 16px 160px;
             position: relative;
-            z-index: 2
+            z-index: 2;
         }
 
         header {
             display: flex;
             gap: 12px;
             align-items: center;
-            margin-bottom: 14px
+            margin-bottom: 14px;
         }
 
         .logo {
             font-size: 26px;
-            filter: drop-shadow(0 0 10px var(--ring))
+            filter: drop-shadow(0 0 10px var(--ring));
         }
 
         h1 {
             margin: 0;
             font-size: 20px;
-            letter-spacing: .3px
+            letter-spacing: .3px;
         }
 
         .sub {
             margin-top: 4px;
             font-size: 12px;
-            color: var(--muted)
+            color: var(--muted);
         }
 
         .card {
@@ -99,17 +98,17 @@
         @keyframes pop {
             from {
                 transform: scale(.985);
-                opacity: .0
+                opacity: 0;
             }
             to {
                 transform: scale(1);
-                opacity: 1
+                opacity: 1;
             }
         }
 
         .timer {
             display: grid;
-            grid-template-columns:repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 12px;
             text-align: center;
         }
@@ -136,31 +135,31 @@
             font-size: 30px;
             font-weight: 900;
             letter-spacing: .5px;
-            text-shadow: 0 0 12px color-mix(in oklab, var(--accent), transparent 70%)
+            text-shadow: 0 0 12px color-mix(in oklab, var(--accent), transparent 70%);
         }
 
         .tcap {
             font-size: 10px;
             color: var(--muted);
             margin-top: 2px;
-            letter-spacing: .4px
+            letter-spacing: .4px;
         }
 
         .date {
             margin: 12px 2px 4px;
             font-size: 13px;
-            color: var(--muted)
+            color: var(--muted);
         }
 
         .accent {
             color: var(--accent2);
             font-weight: 800;
-            text-shadow: 0 0 8px color-mix(in oklab, var(--accent2), transparent 65%)
+            text-shadow: 0 0 8px color-mix(in oklab, var(--accent2), transparent 65%);
         }
 
-        /* Блок плана по траве */
+        /* Блок плана */
         .bank {
-            margin-top: 14px;
+            margin-top: 18px;
             display: grid;
             grid-template-columns: 1fr auto;
             gap: 10px;
@@ -168,7 +167,7 @@
         }
 
         .bank-head {
-            grid-column: 1/-1;
+            grid-column: 1 / -1;
             display: flex;
             gap: 8px;
             align-items: baseline;
@@ -188,13 +187,13 @@
 
         .help {
             font-size: 11px;
-            color: var(--muted)
+            color: var(--muted);
         }
 
         .actions {
             display: flex;
             gap: 10px;
-            grid-column: 1/-1
+            grid-column: 1 / -1;
         }
 
         .pill {
@@ -208,7 +207,6 @@
             letter-spacing: .3px;
             transition: transform .06s ease, filter .2s ease, box-shadow .2s ease;
             box-shadow: 0 6px 20px color-mix(in oklab, var(--accent), transparent 70%), inset 0 -2px 0 rgba(0, 0, 0, .15);
-            /* UX: prevent double-tap zoom on iOS/Android */
             touch-action: manipulation;
         }
 
@@ -220,11 +218,11 @@
         }
 
         .pill:active {
-            transform: translateY(1px) scale(.98)
+            transform: translateY(1px) scale(.98);
         }
 
         .pill:hover {
-            filter: brightness(1.06)
+            filter: brightness(1.06);
         }
 
         .pill:focus-visible {
@@ -234,11 +232,16 @@
         }
 
         .pill.small {
-            padding: 10px 12px
+            padding: 10px 12px;
+        }
+
+        a.pill {
+            display: inline-block;
+            text-decoration: none;
         }
 
         .grams {
-            grid-column: 1/-1;
+            grid-column: 1 / -1;
             display: flex;
             justify-content: center;
             gap: 10px;
@@ -251,17 +254,17 @@
         .gval {
             font-size: 28px;
             font-weight: 900;
-            text-shadow: 0 0 10px color-mix(in oklab, var(--accent), transparent 75%)
+            text-shadow: 0 0 10px color-mix(in oklab, var(--accent), transparent 75%);
         }
 
         .hint {
             margin-top: 6px;
             font-size: 11px;
             color: var(--muted);
-            text-align: right
+            text-align: right;
         }
 
-        /* Блок фактов про Амстердам */
+        /* Факты и навигация */
         .facts {
             margin-top: 18px;
             display: flex;
@@ -304,6 +307,51 @@
             font-size: 13px;
         }
 
+        /* Табы для мест */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .tab {
+            border: 1px solid var(--stroke);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            background: color-mix(in oklab, var(--card), #000 4%);
+            color: var(--muted);
+            cursor: pointer;
+            transition: background .16s ease, color .16s ease, box-shadow .16s ease, border-color .16s ease;
+        }
+
+        .tab[aria-selected="true"] {
+            background: color-mix(in oklab, var(--accent), transparent 70%);
+            color: var(--accent-ink);
+            border-color: color-mix(in oklab, var(--accent), transparent 40%);
+            box-shadow: 0 4px 18px color-mix(in oklab, var(--accent), transparent 80%);
+        }
+
+        .tab:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .tab-panels {
+            margin-top: 10px;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
         .skyline {
             position: absolute;
             left: 0;
@@ -334,34 +382,33 @@
         @keyframes fly {
             0% {
                 transform: translate(var(--x, 0), var(--y, 0)) scale(.6);
-                opacity: 0
+                opacity: 0;
             }
             10% {
-                opacity: 1
+                opacity: 1;
             }
             100% {
                 transform: translate(calc(var(--x, 0) * 1.8), calc(var(--y, 0) * 1.8 - 80px)) rotate(25deg) scale(1.25);
-                opacity: 0
+                opacity: 0;
             }
         }
 
         .shake {
-            animation: shake .3s ease
+            animation: shake .3s ease;
         }
 
         @keyframes shake {
             0%, 100% {
-                transform: translateX(0)
+                transform: translateX(0);
             }
             25% {
-                transform: translateX(-2px)
+                transform: translateX(-2px);
             }
             75% {
-                transform: translateX(2px)
-            }add Google Maps link for hostel location
+                transform: translateX(2px);
+            }
         }
 
-        /* Respect prefers-reduced-motion: disable “extra” animations */
         @media (prefers-reduced-motion: reduce) {
             .card,
             .burst,
@@ -376,11 +423,11 @@
 
         @media (max-width: 360px) {
             .tval {
-                font-size: 26px
+                font-size: 26px;
             }
 
             .gval {
-                font-size: 24px
+                font-size: 24px;
             }
         }
 
@@ -388,25 +435,6 @@
             html:not([data-theme="dark"]) {
                 color-scheme: light;
             }
-        }
-
-        .pill {
-            border: none;
-            padding: 12px 14px;
-            border-radius: 14px;
-            cursor: pointer;
-            background: var(--accent);
-            color: var(--accent-ink);
-            font-weight: 900;
-            letter-spacing: .3px;
-            transition: transform .06s ease, filter .2s ease, box-shadow .2s ease;
-            box-shadow: 0 6px 20px color-mix(in oklab, var(--accent), transparent 70%), inset 0 -2px 0 rgba(0, 0, 0, .15);
-            touch-action: manipulation;
-        }
-        /* NEW: make anchor pills look/behave the same as buttons */
-        a.pill {
-            display: inline-block;
-            text-decoration: none;
         }
     </style>
 </head>
@@ -444,12 +472,221 @@
             ✈️ <span class="accent" title="Локальное время устройства">5 декабря 2025, 12:00</span>
         </div>
 
+        <!-- Навигация по городу -->
+        <div class="facts" aria-labelledby="placesTitle">
+            <div class="facts-head">
+                <div class="badge" id="placesTitle">Навигация по городу</div>
+                <div class="facts-help">один тап — и ты в нужном месте</div>
+            </div>
+
+            <div
+                    class="tabs"
+                    role="tablist"
+                    aria-label="Категории мест в Амстердаме"
+            >
+                <button
+                        class="tab"
+                        id="tab-hostel"
+                        type="button"
+                        role="tab"
+                        aria-selected="true"
+                        aria-controls="panel-hostel"
+                >
+                    отель
+                </button>
+                <button
+                        class="tab"
+                        id="tab-coffeeshops"
+                        type="button"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="panel-coffeeshops"
+                >
+                    кофешопы
+                </button>
+                <button
+                        class="tab"
+                        id="tab-mushrooms"
+                        type="button"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="panel-mushrooms"
+                >
+                    magic mushrooms
+                </button>
+                <button
+                        class="tab"
+                        id="tab-beer"
+                        type="button"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="panel-beer"
+                >
+                    пиво
+                </button>
+                <button
+                        class="tab"
+                        id="tab-food"
+                        type="button"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="panel-food"
+                >
+                    еда
+                </button>
+                <button
+                        class="tab"
+                        id="tab-places"
+                        type="button"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="panel-places"
+                >
+                    музеи / места
+                </button>
+            </div>
+
+            <div class="tab-panels">
+                <div
+                        class="tab-panel active"
+                        id="panel-hostel"
+                        role="tabpanel"
+                        aria-labelledby="tab-hostel"
+                >
+                    <div class="actions" aria-label="Ссылка на отель">
+                        <a
+                                class="pill"
+                                href="https://maps.app.goo.gl/trCqtmrhjbaYZvCKA"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                        >
+                            Открыть отель в Google Maps
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                        class="tab-panel"
+                        id="panel-coffeeshops"
+                        role="tabpanel"
+                        aria-labelledby="tab-coffeeshops"
+                >
+                    <div class="actions" aria-label="Подборка кофешопов">
+                        <a
+                                class="pill"
+                                href="https://maps.app.goo.gl/irkJJYwgFn5NbifN7"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                        >
+                            Моя библиотека кофешопов
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                        class="tab-panel"
+                        id="panel-mushrooms"
+                        role="tabpanel"
+                        aria-labelledby="tab-mushrooms"
+                >
+                    <div class="actions" aria-label="Магазины magic mushrooms">
+                        <a
+                                class="pill"
+                                href="https://maps.app.goo.gl/ndT6xiLezotoGWk29"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                        >
+                            Магазины magic mushrooms
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                        class="tab-panel"
+                        id="panel-beer"
+                        role="tabpanel"
+                        aria-labelledby="tab-beer"
+                >
+                    <div class="actions" aria-label="Пивные места">
+                        <a
+                                class="pill"
+                                href="https://maps.app.goo.gl/CZaaXrJpotXkxsZM8"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                        >
+                            Пивные места в Google Maps
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                        class="tab-panel"
+                        id="panel-food"
+                        role="tabpanel"
+                        aria-labelledby="tab-food"
+                >
+                    <div class="actions" aria-label="Еда">
+                        <a
+                                class="pill"
+                                href="https://maps.app.goo.gl/tYMjajB5yXvhXd4G8"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                        >
+                            Где поесть — подборка
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                        class="tab-panel"
+                        id="panel-places"
+                        role="tabpanel"
+                        aria-labelledby="tab-places"
+                >
+                    <div class="actions" aria-label="Музеи и интересные места">
+                        <a
+                                class="pill"
+                                href="https://maps.app.goo.gl/mPCTkrjZzMn9zvPT8"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                        >
+                            Музеи и прикольные места
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Факты о правилах и безопасности -->
+        <div class="facts" aria-labelledby="factTitle" aria-describedby="factHelp">
+            <div class="facts-head">
+                <div class="badge" id="factTitle">Правила и безопасность</div>
+                <div class="facts-help" id="factHelp">короткие подсказки перед выходом из хостела</div>
+            </div>
+
+            <button
+                    class="pill small"
+                    id="factBtn"
+                    type="button"
+                    aria-label="Показать случайный факт о правилах и безопасности в Амстердаме"
+            >
+                Новый факт 📚
+            </button>
+
+            <div class="fact-card" id="factCard">
+                <div class="fact-label">перед поездкой</div>
+                <div class="fact-text" id="factText">
+                    Нажми «Новый факт», чтобы получить краткую подсказку о местных правилах и безопасном отдыхе 🌿
+                </div>
+            </div>
+        </div>
+
         <!-- Личный план (локально на устройстве) -->
         <div class="bank" aria-labelledby="planTitle" aria-describedby="planHelp">
             <div class="bank-head">
                 <div id="planTitle" class="badge" title="Личный ориентир на поездку">Личный план</div>
                 <div id="planHelp" class="help">
-                    сколько <strong>планируешь</strong> использовать (значение хранится только на этом устройстве)
+                    сколько планируешь использовать — только для тебя и только на этом устройстве
                 </div>
             </div>
 
@@ -466,53 +703,10 @@
         </div>
 
         <div class="hint" role="note">
-            Данные не отправляются и не синхронизируются — только на этом устройстве. 🫢
-        </div>
-
-        <div class="facts" aria-labelledby="hostelTitle">
-            <div class="facts-head">
-                <div class="badge" id="hostelTitle">Хостел</div>
-                <div class="facts-help">быстрый переход в Google Maps</div>
-            </div>
-
-            <div class="actions" aria-label="Ссылки на карты">
-                <a
-                        class="pill"
-                        href="https://maps.app.goo.gl/trCqtmrhjbaYZvCKA"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Открыть страницу хостела в Google Maps"
-                >Открыть в Google Maps</a>
-            </div>
-        </div>
-
-        <!-- Факты о правилах и безопасности -->
-        <div class="facts" aria-labelledby="factTitle" aria-describedby="factHelp">
-            <div class="facts-head">
-                <div class="badge" id="factTitle">Факты о правилах</div>
-                <div class="facts-help" id="factHelp">проверенная справка о кофешопах и безопасности</div>
-            </div>
-
-            <button
-                    class="pill small"
-                    id="factBtn"
-                    type="button"
-                    aria-label="Показать случайный факт о правилах и безопасности в Амстердаме"
-            >
-                Новый факт 📚
-            </button>
-
-            <div class="fact-card" id="factCard">
-                <div class="fact-label">подсказка перед поездкой</div>
-                <div class="fact-text" id="factText">
-                    Нажми «Новый факт», чтобы узнать короткую подсказку о местных правилах и harm reduction 🌿
-                </div>
-            </div>
+            Все данные хранятся только на этом устройстве. 🫢
         </div>
     </div>
 </div>
-
-
 
 <div class="skyline" aria-hidden="true"></div>
 
@@ -522,77 +716,110 @@
         const tg = window.Telegram?.WebApp;
         if (!tg) return;
         tg.expand();
-        const theme = (tg.colorScheme || 'light').toLowerCase();
-        document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+        const theme = (tg.colorScheme || "light").toLowerCase();
+        document.documentElement.setAttribute("data-theme", theme === "dark" ? "dark" : "light");
 
         const p = tg.themeParams || {};
         const setVar = (name, val) => val && document.documentElement.style.setProperty(name, val);
-        setVar('--accent', p.button_color);
-        setVar('--accent2', p.link_color);
-        setVar('--accent-ink', p.button_text_color);
-        setVar('--muted', p.hint_color);
+        setVar("--accent", p.button_color);
+        setVar("--accent2", p.link_color);
+        setVar("--accent-ink", p.button_text_color);
+        setVar("--muted", p.hint_color);
     })();
 
     // === Countdown ===
-    const dEl = document.getElementById('d');
-    const hEl = document.getElementById('h');
-    const mEl = document.getElementById('m');
-    const sEl = document.getElementById('s');
-    const subEl = document.getElementById('subtitle');
+    const dEl = document.getElementById("d");
+    const hEl = document.getElementById("h");
+    const mEl = document.getElementById("m");
+    const sEl = document.getElementById("s");
+    const subEl = document.getElementById("subtitle");
 
     // NOTE: interpreted in user's local timezone
-    const TARGET = new Date('2025-12-05T12:00:00');
+    const TARGET = new Date("2025-12-05T12:00:00");
 
-    function updateTimer(diffMs) {
-        if (diffMs <= 0) {
-            dEl.textContent = '0';
-            hEl.textContent = '00';
-            mEl.textContent = '00';
-            sEl.textContent = '00';
-            subEl.textContent = 'Пора взлетать! ✈️';
-            sparkBurst(window.innerWidth / 2, 40, ['✨', '🌿', '🧡']);
-            return false;
+    function isSameCalendarDay(a, b) {
+        return (
+            a.getFullYear() === b.getFullYear() &&
+            a.getMonth() === b.getMonth() &&
+            a.getDate() === b.getDate()
+        );
+    }
+
+    /**
+     * Возвращает:
+     * - 'countdown' — обычный отсчёт
+     * - 'day'       — сегодня день вылета (весь день)
+     * - 'done'      — вылет уже прошёл
+     */
+    function updateTimer(now) {
+        // 1) Сам день вылета (по дате, не по времени)
+        if (isSameCalendarDay(now, TARGET)) {
+            dEl.textContent = "0";
+            hEl.textContent = "--";
+            mEl.textContent = "--";
+            sEl.textContent = "--";
+            subEl.textContent = "Сегодня день вылета — пристегните ремни безопасности! ✈️";
+            return "day";
         }
+
+        const diffMs = TARGET.getTime() - now.getTime();
+
+        // 2) Вылет уже прошёл
+        if (diffMs <= 0) {
+            dEl.textContent = "0";
+            hEl.textContent = "00";
+            mEl.textContent = "00";
+            sEl.textContent = "00";
+            subEl.textContent = "Пора взлетать! ✈️";
+            sparkBurst(window.innerWidth / 2, 40, ["✨", "🌿", "🧡"]);
+            return "done";
+        }
+
+        // 3) Обычный отсчёт
         const totalSeconds = Math.floor(diffMs / 1000);
         const days = Math.floor(totalSeconds / 86400);
         const hours = Math.floor((totalSeconds % 86400) / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
         const seconds = totalSeconds % 60;
 
-        dEl.textContent = days.toLocaleString('ru-RU');
-        hEl.textContent = hours.toString().padStart(2, '0');
-        mEl.textContent = minutes.toString().padStart(2, '0');
-        sEl.textContent = seconds.toString().padStart(2, '0');
-        return true;
+        dEl.textContent = days.toLocaleString("ru-RU");
+        hEl.textContent = hours.toString().padStart(2, "0");
+        mEl.textContent = minutes.toString().padStart(2, "0");
+        sEl.textContent = seconds.toString().padStart(2, "0");
+
+        return "countdown";
     }
 
     const timerId = setInterval(() => {
-        const diff = TARGET.getTime() - Date.now();
-        if (!updateTimer(diff)) clearInterval(timerId);
+        const state = updateTimer(new Date());
+        if (state !== "countdown") {
+            clearInterval(timerId);
+        }
     }, 1000);
-    updateTimer(TARGET.getTime() - Date.now());
+
+    updateTimer(new Date());
 
     // === Личный план (граммы) ===
-    const LS_KEY = 'ams.plan.v1';
-    const gramsEl = document.getElementById('grams');
-    const inc = document.getElementById('incBtn');
-    const dec = document.getElementById('decBtn');
+    const LS_KEY = "ams.plan.v1";
+    const gramsEl = document.getElementById("grams");
+    const inc = document.getElementById("incBtn");
+    const dec = document.getElementById("decBtn");
 
     const funnyLines = [
-        'Красавчик — минус лишнее 🧘',
-        'Яснее голова — приятнее день ✨',
-        'Темп держим, перегибов нет 💚',
-        'Чуть меньше — чуть спокойнее 😌',
-        'Лучше недобрать, чем перебрать 😉',
-        'Минус грамм — плюс контроль ✅',
-        'Тело скажет спасибо позже 🙌',
-        'Силы на музеи и каналы остались 🚲',
-        'Сегодня бережно — завтра бодро 🌞'
+        "Красавчик — минус лишнее 🧘",
+        "Яснее голова — приятнее день ✨",
+        "Темп держим, перегибов нет 💚",
+        "Чуть меньше — чуть спокойнее 😌",
+        "Лучше недобрать, чем перебрать 😉",
+        "Минус грамм — плюс контроль ✅",
+        "Тело скажет спасибо позже 🙌",
+        "Силы на музеи и каналы остались 🚲",
+        "Сегодня бережно — завтра бодро 🌞"
     ];
 
     function readFromStorage() {
         try {
-            const raw = localStorage.getItem(LS_KEY) || '0';
+            const raw = localStorage.getItem(LS_KEY) || "0";
             const n = parseInt(raw, 10);
             return Number.isFinite(n) && n > 0 ? n : 0;
         } catch {
@@ -606,95 +833,98 @@
         try {
             localStorage.setItem(LS_KEY, String(value));
         } catch {
-            /* ignore */
+            // ignore
         }
     }
 
     function renderGrams() {
-        gramsEl.textContent = gramsValue.toLocaleString('ru-RU') + ' г';
+        gramsEl.textContent = gramsValue.toLocaleString("ru-RU") + " г";
         dec.hidden = gramsValue <= 0;
     }
 
     function haptic(type) {
         try {
-            window.Telegram?.WebApp?.HapticFeedback?.impactOccurred(type || 'light');
-        } catch { /* ignore */
+            window.Telegram?.WebApp?.HapticFeedback?.impactOccurred(type || "light");
+        } catch {
+            // ignore
         }
     }
 
     function sparkBurst(x, y, set) {
-        const emojis = set || ['🌿', '💥', '🟠', '✨'];
+        const emojis = set || ["🌿", "💥", "🟠", "✨"];
         const n = 12;
         for (let i = 0; i < n; i += 1) {
-            const e = document.createElement('div');
-            e.className = 'burst';
+            const e = document.createElement("div");
+            e.className = "burst";
             e.textContent = emojis[i % emojis.length];
             const angle = (Math.PI * 2 / n) * i + (Math.random() * 0.5 - 0.25);
             const dist = 60 + Math.random() * 40;
             const dx = Math.cos(angle) * dist;
             const dy = Math.sin(angle) * dist;
-            e.style.left = x + 'px';
-            e.style.top = y + 'px';
-            e.style.setProperty('--x', dx + 'px');
-            e.style.setProperty('--y', dy + 'px');
+            e.style.left = x + "px";
+            e.style.top = y + "px";
+            e.style.setProperty("--x", dx + "px");
+            e.style.setProperty("--y", dy + "px");
             document.body.appendChild(e);
             setTimeout(() => e.remove(), 900);
         }
     }
 
     function cursorPoint(ev) {
-        if (ev.touches?.[0]) return {x: ev.touches[0].clientX, y: ev.touches[0].clientY};
+        if (ev.touches?.[0]) {
+            return {x: ev.touches[0].clientX, y: ev.touches[0].clientY};
+        }
         return {x: ev.clientX, y: ev.clientY};
     }
 
     function pulse(el) {
-        el.style.transition = 'transform .12s ease, text-shadow .2s ease';
-        el.style.transform = 'scale(1.06)';
-        el.style.textShadow = '0 0 18px var(--ring)';
+        el.style.transition = "transform .12s ease, text-shadow .2s ease";
+        el.style.transform = "scale(1.06)";
+        el.style.textShadow = "0 0 18px var(--ring)";
         setTimeout(() => {
-            el.style.transform = 'scale(1)';
-            el.style.textShadow = '0 0 10px color-mix(in oklab, var(--accent), transparent 75%)';
+            el.style.transform = "scale(1)";
+            el.style.textShadow = "0 0 10px color-mix(in oklab, var(--accent), transparent 75%)";
         }, 120);
     }
 
     function toastLine(text) {
-        const e = document.createElement('div');
-        e.className = 'badge';
-        e.style.position = 'fixed';
-        e.style.left = '50%';
-        e.style.top = '12px';
-        e.style.transform = 'translateX(-50%)';
-        e.style.zIndex = '6';
-        e.style.backdropFilter = 'blur(8px)';
-        e.style.padding = '10px 14px';
+        const e = document.createElement("div");
+        e.className = "badge";
+        e.style.position = "fixed";
+        e.style.left = "50%";
+        e.style.top = "12px";
+        e.style.transform = "translateX(-50%)";
+        e.style.zIndex = "6";
+        e.style.backdropFilter = "blur(8px)";
+        e.style.padding = "10px 14px";
         e.textContent = text;
         document.body.appendChild(e);
         setTimeout(() => {
-            e.style.transition = 'opacity .25s ease, transform .25s ease';
-            e.style.opacity = '0';
-            e.style.transform = 'translateX(-50%) translateY(-6px)';
+            e.style.transition = "opacity .25s ease, transform .25s ease";
+            e.style.opacity = "0";
+            e.style.transform = "translateX(-50%) translateY(-6px)";
         }, 1200);
         setTimeout(() => e.remove(), 1600);
     }
 
-    inc.addEventListener('click', (ev) => {
+    inc.addEventListener("click", (ev) => {
         gramsValue += 1;
         saveToStorage(gramsValue);
         renderGrams();
-        haptic('medium');
+        haptic("medium");
         const {x, y} = cursorPoint(ev);
-        sparkBurst(x, y, ['🌿', '✨', '🧡']);
+        sparkBurst(x, y, ["🌿", "✨", "🧡"]);
         pulse(gramsEl);
     });
 
-    dec.addEventListener('click', (ev) => {
+    dec.addEventListener("click", (ev) => {
         if (gramsValue <= 0) return;
         gramsValue -= 1;
         saveToStorage(gramsValue);
         renderGrams();
-        haptic('light');
+        haptic("light");
         const {x, y} = cursorPoint(ev);
-        sparkBurst(x, y, ['🧘', '✨', '🥦']);
+        sparkBurst(x, y, ["🧘", "✨", "🥦"]);
         pulse(gramsEl);
         const msg = funnyLines[Math.floor(Math.random() * funnyLines.length)];
         toastLine(msg);
@@ -705,59 +935,59 @@
     // === Факты о правилах и безопасности ===
     const FACTS = [
         // --- правила и базовые вещи
-        'В старом центре/Red Light District нельзя курить каннабис на улице — штраф около €100. Курить можно внутри и на террасе кофешопов. 🚭',
-        'Кофешоп продаст не больше 5 г за раз одному человеку. Реклама каннабиса запрещена. ⚖️',
-        'Кофешопы не продают алкоголь, а бары не продают каннабис — разделение строгое. 🚫🍻',
-        'Spacecake действует медленно (до часа) и может накрыть сильнее, чем джойнт — начинай с малого. 🍰🔥',
+        "В старом центре/Red Light District нельзя курить каннабис на улице — штраф около €100. Курить можно внутри и на террасе кофешопов. 🚭",
+        "Кофешоп продаст не больше 5 г за раз одному человеку. Реклама каннабиса запрещена. ⚖️",
+        "Кофешопы не продают алкоголь, а бары не продают каннабис — разделение строгое. 🚫🍻",
+        "Spacecake действует медленно (до часа) и может накрыть сильнее, чем джойнт — начинай с малого. 🍰🔥",
 
         // --- пиво и бары
-        'Heineken Experience — музей-брю-туры в исторической пивоварне в центре Амстердама. 🍺',
-        'Пиво Amstel названо в честь реки Амстел, от которой пошёл и Амстердам. 🌊',
-        'Brand — старейшая пивоварня Нидерландов (с 1340 года). Их лагер считают “пивом дедов”. 🍻',
-        'La Trappe — единственное траппистское пиво Нидерландов, варится монахами в монастыре под Тилбургом. ⛪🍺',
-        'Brouwerij ’t IJ варит крафт под ветряком в центре Амстердама — уютное место для дегустации. 🌾',
-        'Голландцы пьют пиво из маленьких стаканов по 0.25 л (“vaasje”) — чтобы всегда было холодным. ❄️',
-        'В барах часто подают “bitterballen” — жареные мясные шарики, идеальная закуска под пиво. 🍢',
-        'Голландцы не любят быстро пить: у них философия “drink less, taste more”. 🧘‍♂️',
-        'Jenever — крепкий предок джина. Его традиционно пьют охлаждённым, с глотка, не поднимая бокал. 🥃',
-        'В Нидерландах всё ещё популярно “bier + jenever” — комбо, где пиво запивают глотком джина. 🌀🍺',
-        'Если бармен наливает пиво с “пеной по краю”, не ругайся — это знак правильной подачи. 🍻',
-        'Icebar — бар изо льда: стены, стойка и даже бокалы. ❄️🍸',
+        "Heineken Experience — музей-брю-туры в исторической пивоварне в центре Амстердама. 🍺",
+        "Пиво Amstel названо в честь реки Амстел, от которой пошёл и Амстердам. 🌊",
+        "Brand — старейшая пивоварня Нидерландов (с 1340 года). Их лагер считают “пивом дедов”. 🍻",
+        "La Trappe — единственное траппистское пиво Нидерландов, варится монахами в монастыре под Тилбургом. ⛪🍺",
+        "Brouwerij ’t IJ варит крафт под ветряком в центре Амстердама — уютное место для дегустации. 🌾",
+        "Голландцы пьют пиво из маленьких стаканов по 0.25 л (“vaasje”) — чтобы всегда было холодным. ❄️",
+        "В барах часто подают “bitterballen” — жареные мясные шарики, идеальная закуска под пиво. 🍢",
+        "Голландцы не любят быстро пить: у них философия “drink less, taste more”. 🧘‍♂️",
+        "Jenever — крепкий предок джина. Его традиционно пьют охлаждённым, с глотка, не поднимая бокал. 🥃",
+        "В Нидерландах всё ещё популярно “bier + jenever” — комбо, где пиво запивают глотком джина. 🌀🍺",
+        "Если бармен наливает пиво с “пеной по краю”, не ругайся — это знак правильной подачи. 🍻",
+        "Icebar — бар изо льда: стены, стойка и даже бокалы. ❄️🍸",
 
-        // --- каннабис, культура и советы
-        'Дома терпят до 5 г и (формально незаконные) до 5 растений — могут изъять, но обычно без уголовки. 🏠🌿',
-        '«Грибы» запрещены с 2008 года, но магические трюфели (sclerotia) легальны и продаются в smartshop. 🧠',
-        'В городе ~165 кофешопов — много, но все по лицензии и правилам. 🌿',
-        'Алкоголь и трава вместе усиливают друг друга — береги завтра. 😵‍💫',
-        'Если переборщил со spacecake — сядь, вода, перекус и время. Паника пройдёт. 💧',
-        'Полиция обычно спокойна, если ты вежлив и не мешаешь другим. 🤝',
-        'Многие кофешопы закрываются около полуночи–01:00 — планируй заранее. 🌙',
-        'Многие прероллы — с табаком. Проси “pure”, и помни: табак внутри помещений запрещён. 🚬❌',
-        'Можно попросить сорта с низким THC или CBD-доминантные — мягче и без паранойи. 😌',
-        'Сорта типа “Sativa” бодрят и подходят для прогулки, “Indica” расслабляет и зовёт в кровать. 🌞🌙',
-        'Spacecake лучше делить на двоих — никто не жалеет об этом решении. 🍰😉',
-        'Если не хочешь сильного эффекта, попробуй vaporizer вместо джойнта — мягче и чище. 💨',
-        'Не кури всё за раз: пары затяжек часто достаточно. Потом добавишь. 🌿🫠',
-        'Кофешопы дальше от центра обычно спокойнее и иногда дешевле. 🏙️',
-        'Некоторые кофешопы принимают только наличные — проверь заранее. 💶',
-        'Свобода тут работает, если уважаешь правила — тогда отдых пройдёт гладко. ✅',
-        'Антидот от паранойи: прогулка вдоль каналов и свежий stroopwafel. 🧇🌉',
-        'Каналы, кофе и лёгкий чилл — формула идеальных выходных. ☕🌿🚲',
+        // --- каннабис, культура и советы (нейтрально и про harm reduction)
+        "Дома терпят до 5 г и (формально незаконные) до 5 растений — могут изъять, но обычно без уголовки. 🏠🌿",
+        "«Грибы» запрещены с 2008 года, но магические трюфели (sclerotia) легальны и продаются в smartshop. 🧠",
+        "В городе ~165 кофешопов — много, но все по лицензии и правилам. 🌿",
+        "Алкоголь и трава вместе усиливают друг друга — аккуратнее, можно быстро почувствовать себя плохо. 😵‍💫",
+        "Если переборщил со spacecake — сядь, вода, перекус и время. Паника обычно проходит сама. 💧",
+        "Полиция обычно спокойна, если ты вежлив и не мешаешь другим. 🤝",
+        "Многие кофешопы закрываются около полуночи–01:00 — планируй заранее. 🌙",
+        "Многие прероллы — с табаком. Проси “pure”, и помни: табак внутри помещений запрещён. 🚬❌",
+        "Можно попросить сорта с низким THC или CBD-доминантные — мягче и спокойнее. 😌",
+        "Сорта типа “Sativa” обычно бодрят, “Indica” расслабляет и клонит в сон. 🌞🌙",
+        "Spacecake лучше делить на двоих — это помогает не переборщить. 🍰😉",
+        "Если не хочешь сильного эффекта, попробуй vaporizer вместо джойнта — мягче и чище. 💨",
+        "Не кури всё за раз: пары затяжек часто достаточно. Потом всегда можно добавить. 🌿🫠",
+        "Кофешопы дальше от центра обычно спокойнее и иногда дешевле. 🏙️",
+        "Некоторые кофешопы принимают только наличные — проверь заранее. 💶",
+        "Свобода здесь работает, когда уважаешь правила — так поездка проходит спокойнее. ✅",
+        "Антидот от тревоги: прогулка вдоль каналов и свежий stroopwafel. 🧇🌉",
+        "Каналы, кофе и лёгкий чилл — формула очень спокойных выходных. ☕🌿🚲",
 
         // --- дополнительно о культуре
-        'В центре распивать алкоголь на улице нельзя — пей внутри или на террасе. 🚷🥂',
-        'Возраст для алкоголя — 18+. Паспорт могут спросить и в баре, и в кофешопе. 🪪',
-        'Сыр + пиво + лёгкий кайф = неофициальный амстердамский триатлон. 🧀🍺🌿',
-        'В центре лучше не скручивать и не курить на улице — выглядит как public use и грозит штрафом. 🚨',
-        'Голландцы очень пунктуальны: если бронировал дегустацию, не опаздывай — тур начнётся без тебя. ⏰'
+        "В центре распивать алкоголь на улице нельзя — пей внутри или на террасе. 🚷🥂",
+        "Возраст для алкоголя — 18+. Паспорт могут спросить и в баре, и в кофешопе. 🪪",
+        "Сыр + пиво + прогулка по каналам — очень голландская классика. 🧀🍺🌉",
+        "В центре лучше не скручивать и не курить на улице — может считаться public use и привести к штрафу. 🚨",
+        "Голландцы очень пунктуальны: если бронировал дегустацию, не опаздывай — тур начнётся без тебя. ⏰"
     ];
 
-    const factBtn = document.getElementById('factBtn');
-    const factTextEl = document.getElementById('factText');
+    const factBtn = document.getElementById("factBtn");
+    const factTextEl = document.getElementById("factText");
     let lastFactIndex = -1;
 
     function getRandomFact() {
-        if (!FACTS.length) return '';
+        if (!FACTS.length) return "";
         if (FACTS.length === 1) return FACTS[0];
         let idx;
         do {
@@ -768,24 +998,51 @@
     }
 
     if (factBtn && factTextEl) {
-        factBtn.addEventListener('click', (ev) => {
+        factBtn.addEventListener("click", (ev) => {
             const fact = getRandomFact();
             if (!fact) return;
             factTextEl.textContent = fact;
-            haptic('light');
+            haptic("light");
             const {x, y} = cursorPoint(ev);
-            sparkBurst(x, y, ['📚', '🌿', '✨']);
-            factTextEl.classList.add('shake');
-            setTimeout(() => factTextEl.classList.remove('shake'), 300);
+            sparkBurst(x, y, ["📚", "🌿", "✨"]);
+            factTextEl.classList.add("shake");
+            setTimeout(() => factTextEl.classList.remove("shake"), 300);
         });
     }
 
-    document.addEventListener('click', (e) => {
-        const pillLink = e.target.closest('a.pill');
+    document.addEventListener("click", (e) => {
+        const pillLink = e.target.closest("a.pill");
         if (pillLink) {
-            haptic('light');
+            haptic("light");
         }
     });
+
+    // === Табы навигации по городу ===
+    const tabButtons = Array.from(document.querySelectorAll(".tabs .tab"));
+    const tabPanels = Array.from(document.querySelectorAll(".tab-panel"));
+
+    function setActiveTab(nextBtn) {
+        const nextPanelId = nextBtn.getAttribute("aria-controls");
+        tabButtons.forEach((btn) => {
+            const isActive = btn === nextBtn;
+            btn.setAttribute("aria-selected", isActive ? "true" : "false");
+            btn.tabIndex = isActive ? 0 : -1;
+        });
+
+        tabPanels.forEach((panel) => {
+            const isActive = panel.id === nextPanelId;
+            panel.classList.toggle("active", isActive);
+        });
+    }
+
+    if (tabButtons.length && tabPanels.length) {
+        tabButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                setActiveTab(btn);
+                haptic("light");
+            });
+        });
+    }
 </script>
 </body>
 </html>
